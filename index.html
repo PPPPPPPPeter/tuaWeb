@@ -2,127 +2,64 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>伦敦考察行程地图｜10.4–10.6</title>
-  <meta name="description" content="2026 年 10 月 4–6 日伦敦考察行程，查看每日地点、地图与建议移动顺序。">
-  <meta name="theme-color" content="#182d48">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="伦敦考察">
-  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
-  <link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
-  <link rel="manifest" href="./manifest.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.12.0/dist/maplibre-gl.css">
   <style>
-    :root{--ink:#182d48;--muted:#68778a;--paper:#f3f5f8;--panel:#fff;--line:#e4e9ef;--blue:#356da7;--coral:#b96c51;--violet:#8170a6;--accent:var(--blue)}
-    *{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--paper);font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:16px;-webkit-font-smoothing:antialiased}button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}button:focus-visible,a:focus-visible{outline:3px solid #c48c36;outline-offset:4px}button{touch-action:manipulation}
-    .shell{min-height:100svh;display:grid;grid-template-columns:380px minmax(0,1fr)}.sidebar{padding:36px 28px 28px;background:var(--panel);border-right:1px solid var(--line);z-index:2}.brand{display:flex;align-items:center;gap:11px;margin-bottom:32px}.brand img{width:36px;height:36px;border-radius:10px}.eyebrow{font:500 .75rem "DM Mono",monospace;letter-spacing:.11em;color:var(--muted)}.eyebrow span{display:block;margin-top:5px;font-size:.75rem;letter-spacing:.16em;color:var(--ink)}.title{font-size:2rem;line-height:1.4;letter-spacing:.03em;margin:0 0 12px;font-weight:600}.title span{font-weight:400}.subtitle{font-size:.875rem;line-height:1.8;color:var(--muted);margin:0 0 28px}.trip-dates{display:flex;align-items:center;gap:8px;margin:0 0 10px;font:500 .75rem "DM Mono",monospace;letter-spacing:.07em;color:var(--muted)}.trip-dates::before{content:"";width:20px;height:1px;background:var(--muted)}
-    .hotel{display:flex;align-items:center;gap:12px;padding:15px;background:#f4f6f9;border:1px solid var(--line);border-radius:14px;margin-bottom:28px}.hotel .symbol{width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:white;color:var(--ink);flex-shrink:0}.symbol svg{width:20px;height:20px}.hotel strong{font-size:.9375rem;font-weight:600;display:block}.hotel small{display:block;margin-top:4px;font-size:.75rem;color:var(--muted)}.hotel-label{margin-left:auto;font-size:.75rem;color:var(--muted);white-space:nowrap}
-    .day-tabs{display:flex;gap:5px;background:#f1f4f7;padding:5px;border-radius:14px;margin-bottom:28px}.day-tabs button{flex:1;cursor:pointer;border:0;border-radius:10px;background:transparent;min-height:62px;padding:9px 6px;transition:background .18s,color .18s,box-shadow .18s}.day-tabs button strong{display:block;font:500 1rem "DM Mono",monospace}.day-tabs button span{display:block;margin-top:5px;font-size:.75rem;color:var(--muted)}.day-tabs button:hover{background:#e4eaf2}.day-tabs button.active{background:var(--ink);color:white;box-shadow:0 3px 8px #182d4818}.day-tabs button.active span{color:#c7d5e5}
-    .route{display:none}.route.active{display:block;animation:appear .24s ease-out}.route-kicker{font:500 .75rem "DM Mono",monospace;letter-spacing:.12em;color:var(--accent);margin:0 0 9px}.route-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}.route-heading h2{font-size:1rem;font-weight:600;margin:0;line-height:1.6}.route-heading>span{font-size:.75rem;color:var(--muted);white-space:nowrap}
-    .stops{list-style:none;margin:0;padding:0}.stops li{position:relative}.stops li:not(:last-child)::after{content:"";position:absolute;left:14px;top:35px;bottom:5px;border-left:1px solid var(--line);pointer-events:none}.stop-button{display:grid;grid-template-columns:30px minmax(0,1fr) 14px;align-items:start;gap:12px;position:relative;width:100%;text-align:left;border:0;background:transparent;padding:0 0 24px;cursor:pointer}.stop-button:hover .place,.stop-button:focus-visible .place{color:var(--accent)}.stop-chevron{font-size:20px;font-weight:400;color:#8b9aab;line-height:28px}.num{width:30px;height:30px;display:grid;place-items:center;border-radius:50%;color:var(--accent);background:#f0f4f8;border:1px solid var(--line);font:500 .75rem "DM Mono",monospace;z-index:1}.place{display:block;font-size:.9375rem;font-weight:600;line-height:1.7;transition:color .15s}.area{display:block;font-size:.8125rem;color:var(--muted);line-height:1.6;margin-top:3px}.note{font-size:.875rem;color:var(--muted);margin:0;padding-top:18px;border-top:1px solid var(--line);line-height:1.9}.note-label{display:block;margin-bottom:5px;font-size:.75rem;color:var(--ink);font-weight:500}.sidebar-footer{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:20px;margin-top:32px;font:400 .75rem "DM Mono",monospace;letter-spacing:.04em;color:var(--muted)}
-    .map-wrap{position:sticky;top:20px;height:calc(100svh - 40px);margin:20px;min-height:540px;overflow:hidden;border-radius:20px;border:1px solid #dbe2ea;background:#e7edf1;isolation:isolate}.map{position:absolute;inset:0;background:#e7edf1}.map-label{position:absolute;z-index:500;top:20px;left:20px;max-width:calc(100% - 40px);background:rgba(255,255,255,.96);padding:13px 16px;border-radius:12px;box-shadow:0 3px 18px #182d4810;pointer-events:none}.map-label strong{display:block;font-size:.875rem;font-weight:600}.map-label span{display:block;margin-top:5px;font:400 .75rem "DM Mono",monospace;letter-spacing:.03em;color:var(--muted)}.legend{position:absolute;z-index:500;left:20px;bottom:32px;display:flex;flex-wrap:wrap;gap:12px;background:rgba(255,255,255,.96);border:1px solid #e4e9ef;padding:10px 13px;border-radius:10px;font-size:.75rem;line-height:1.5;pointer-events:none}.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}.map-hint{position:absolute;z-index:500;top:110px;left:20px;right:20px;background:white;border:1px solid var(--line);padding:12px 16px;border-radius:12px;font-size:.875rem;line-height:1.7}.map-hint[hidden]{display:none}.map-reset{position:absolute;right:20px;bottom:140px;z-index:500;border:1px solid var(--line);background:white;border-radius:12px;width:44px;height:44px;display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 8px #182d4810}.map-reset svg{width:20px;height:20px}.map-reset:hover{background:#f1f4f7}.map-reset:disabled{display:none}
-    .leaflet-popup-content-wrapper{border-radius:14px;box-shadow:0 8px 28px #182d4826;font-family:"Noto Sans SC",sans-serif}.leaflet-popup-content{margin:15px 18px}.popup-title{font-weight:600;font-size:.9375rem}.popup-text{color:var(--muted);font-size:.8125rem;margin-top:5px;line-height:1.6}.marker{border-radius:50%;width:34px;height:34px;display:grid;place-items:center;color:white;border:3px solid white;box-shadow:0 3px 9px #182d4833;font:500 .8125rem "DM Mono",monospace}.hotel-marker{background:var(--ink)}.hotel-marker svg{width:17px;height:17px}.day-1{background:var(--blue)}.day-2{background:var(--coral)}.day-3{background:var(--violet)}.leaflet-container{font-family:inherit}.leaflet-tile-pane{filter:saturate(.35) contrast(.96) brightness(1.03)}.leaflet-container .leaflet-control-attribution{font-size:10px;background:#ffffffd9;color:#536479}.leaflet-container a{color:#285b8d}.leaflet-right .leaflet-control{margin-right:20px}.leaflet-bottom .leaflet-control-zoom{margin-bottom:36px}.leaflet-touch .leaflet-bar,.leaflet-bar{border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 8px #182d4810;overflow:hidden}.leaflet-touch .leaflet-bar a,.leaflet-bar a{width:42px;height:42px;line-height:42px;color:var(--ink);font-weight:400}.leaflet-bar a:first-child{border-bottom:1px solid var(--line)}
-    @keyframes appear{from{opacity:.45;transform:translateY(4px)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-    @media(min-width:1100px){.shell{grid-template-columns:410px minmax(0,1fr)}.sidebar{padding:40px 34px 28px}.title{font-size:2.25rem}}
-    @media(max-width:760px){body{background:white}.shell{display:flex;flex-direction:column;min-height:100svh;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}.sidebar{display:contents}.trip-header{order:0;padding:24px 22px 0}.brand{margin-bottom:22px}.brand img{width:32px;height:32px;border-radius:9px}.eyebrow{font-size:.75rem}.eyebrow span{display:block;margin-left:0;margin-top:4px;font-size:.75rem}.title{font-size:1.875rem;line-height:1.4;margin-bottom:9px}.title br{display:none}.title span{margin-left:8px}.trip-dates{font-size:.75rem;margin-bottom:8px}.subtitle{margin:0 0 18px;font-size:.875rem}.hotel{order:1;margin:0 22px 18px;padding:11px 13px;border-radius:12px}.hotel .symbol{width:34px;height:34px}.day-tabs{order:2;margin:0 22px 18px}.day-tabs button{min-height:58px}.map-wrap{position:relative;top:auto;order:3;margin:0 12px;min-height:340px;height:43svh;max-height:460px;border-radius:18px}.map-label{top:12px;left:12px;padding:10px 12px;max-width:calc(100% - 24px)}.map-label span{font-size:.75rem}.legend{left:12px;bottom:27px;padding:8px 10px;gap:9px}.leaflet-right .leaflet-control{margin-right:12px}.leaflet-bottom .leaflet-control-zoom{margin-bottom:30px}.map-reset{right:12px;bottom:132px}.itinerary{order:4;padding:26px 22px 0}.route-heading{margin-bottom:20px}.route-heading h2{font-size:1.0625rem}.sidebar-footer{order:5;margin:28px 22px 0;padding:20px 0 24px}.map-hint{top:93px;left:12px;right:12px}.stop-button{padding-bottom:23px}}
-    @media(max-width:360px){.trip-header{padding-left:18px;padding-right:18px}.hotel,.day-tabs{margin-left:18px;margin-right:18px}.eyebrow{letter-spacing:.03em}.eyebrow span{letter-spacing:.03em}.itinerary{padding-left:18px;padding-right:18px}.title{font-size:1.75rem}.legend{max-width:calc(100% - 78px)}.hotel-label{display:none}}
+    :root{--ink:#172321;--muted:#60706c;--paper:#f3f3ed;--panel:#fbfbf7;--line:#d9ddd4;--lime:#cdf25f;--coral:#ff7461;--blue:#367cf2;--yellow:#f3c952}
+    *{box-sizing:border-box} body{margin:0;color:var(--ink);background:var(--paper);font-family:"Noto Sans SC",system-ui,sans-serif} button{font:inherit;color:inherit}
+    .shell{min-height:100vh;display:grid;grid-template-columns:370px 1fr}.sidebar{padding:30px 24px 24px;background:var(--panel);border-right:1px solid var(--line);z-index:2;overflow:auto}
+    .eyebrow{font:500 11px "DM Mono",monospace;letter-spacing:.12em;color:var(--muted);margin-bottom:12px}.title{font-size:29px;line-height:1.16;letter-spacing:-.06em;margin:0 0 11px;font-weight:700}.subtitle{font-size:13px;line-height:1.65;color:var(--muted);margin:0 0 27px}
+    .hotel{display:flex;gap:12px;padding:13px;border:1px solid var(--ink);background:var(--lime);margin-bottom:23px}.hotel .symbol{width:27px;height:27px;display:grid;place-items:center;background:var(--ink);color:var(--lime);font-size:14px}.hotel strong{font-size:14px;display:block}.hotel small{display:block;margin-top:2px;font:11px "DM Mono",monospace}
+    .day-tabs{display:flex;gap:7px;margin-bottom:19px}.day-tabs button{cursor:pointer;border:1px solid var(--line);background:transparent;padding:7px 9px;font:500 11px "DM Mono",monospace}.day-tabs button.active{background:var(--ink);color:white;border-color:var(--ink)}
+    .route{display:none}.route.active{display:block}.route-heading{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}.route-heading h2{font-size:16px;margin:0;letter-spacing:-.03em}.route-heading span{font:11px "DM Mono",monospace;color:var(--muted)}
+    .stops{list-style:none;margin:0;padding:0}.stops li{display:grid;grid-template-columns:23px 1fr;gap:10px;position:relative;padding:0 0 16px}.stops li:not(:last-child)::after{content:"";position:absolute;left:10px;top:22px;bottom:2px;border-left:1px dashed #aeb7b0}.num{width:21px;height:21px;display:grid;place-items:center;border-radius:50%;color:white;background:var(--blue);font:500 10px "DM Mono",monospace;z-index:1}.place{font-size:14px;font-weight:600;line-height:1.25}.area{font-size:12px;color:var(--muted);line-height:1.4;margin-top:2px}.note{font-size:11px;color:var(--muted);margin:13px 0 0;padding-top:14px;border-top:1px solid var(--line);line-height:1.6}
+    .map-wrap{position:relative;min-height:620px}.map{height:100%;min-height:620px}.map-label{position:absolute;z-index:2;top:22px;left:24px;background:rgba(251,251,247,.93);padding:10px 12px;border:1px solid var(--line);font:500 11px "DM Mono",monospace;letter-spacing:.04em}.legend{position:absolute;z-index:2;right:22px;bottom:24px;background:rgba(251,251,247,.94);border:1px solid var(--line);padding:10px 12px;font-size:11px;line-height:1.9}.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}.maplibregl-popup-content{border-radius:0;box-shadow:0 6px 20px rgba(20,30,25,.18);font-family:"Noto Sans SC",sans-serif;padding:12px 14px}.maplibregl-popup-close-button{font-size:18px;padding:2px 6px}.popup-title{font-weight:700;font-size:14px}.popup-text{color:var(--muted);font-size:12px;margin-top:3px}.marker{border-radius:50%;width:28px;height:28px;display:grid;place-items:center;color:white;border:2px solid white;box-shadow:0 1px 5px #556;font:500 11px "DM Mono",monospace}.hotel-marker{background:#172321}.day-1{background:#367cf2}.day-2{background:#ff7461}.day-3{background:#a955c8}
+    @media(max-width:760px){.shell{display:flex;flex-direction:column}.sidebar{border-right:0;border-bottom:1px solid var(--line);padding:23px 18px 19px}.title{font-size:26px}.map-wrap,.map{min-height:58vh;height:58vh}.map-label{top:13px;left:13px}.legend{right:13px;bottom:13px}.route .note{display:none}}
   </style>
 </head>
 <body>
-  <main class="shell">
-    <aside class="sidebar">
-      <header class="trip-header">
-      <div class="brand"><img src="./icons/icon.svg" width="36" height="36" alt=""><div class="eyebrow">LONDON FIELD NOTES<span>城市考察 · 2026</span></div></div>
-      <p class="trip-dates">04 — 06 OCTOBER</p>
-      <h1 class="title">伦敦考察<br><span>行程地图</span></h1>
-      <p class="subtitle">三天，九个地点。沿着城市的脉络，<br>探索伦敦的历史与新生。</p>
-      </header>
-      <section class="hotel" aria-label="酒店位置"><div class="symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-7h6v7"/></svg></div><div><strong>Leman Locke</strong><small>E1 8EN · Aldgate East</small></div><span class="hotel-label">住宿 / 起点</span></section>
-      <nav class="day-tabs" aria-label="行程日期">
-        <button class="active" data-day="1" type="button" aria-controls="route-1" aria-pressed="true"><strong>10.04</strong><span>第1天 · 周日</span></button><button data-day="2" type="button" aria-controls="route-2" aria-pressed="false"><strong>10.05</strong><span>第2天 · 周一</span></button><button data-day="3" type="button" aria-controls="route-3" aria-pressed="false"><strong>10.06</strong><span>第3天 · 周二</span></button>
-      </nav>
-      <div class="itinerary">
-      <section class="route active" id="route-1" aria-label="10 月 4 日行程"><p class="route-kicker">DAY 01 / THE ITINERARY</p><div class="route-heading"><h2>东南伦敦：水岸与历史</h2><span>2 个地点</span></div><ol class="stops"><li><button type="button" class="stop-button" data-stop="0" aria-label="在地图上查看 Canada Water"><span class="num">1</span><span><span class="place">Canada Water</span><span class="area">Rotherhithe · Docklands</span></span><span class="stop-chevron" aria-hidden="true">›</span></button></li><li><button type="button" class="stop-button" data-stop="1" aria-label="在地图上查看 Greenwich"><span class="num">2</span><span><span class="place">Greenwich</span><span class="area">Greenwich Peninsula / Town Centre</span></span><span class="stop-chevron" aria-hidden="true">›</span></button></li></ol><p class="note"><span class="note-label">行程建议</span>酒店位于 Aldgate East；当天线路由泰晤士河以北向东南延伸，适合以 Canada Water 为起点，再前往 Greenwich。</p></section>
-      <section class="route" id="route-2" aria-label="10 月 5 日行程"><p class="route-kicker">DAY 02 / THE ITINERARY</p><div class="route-heading"><h2>创新走廊：教育与再生</h2><span>4 个地点</span></div><ol class="stops"><li><button type="button" class="stop-button" data-stop="0" aria-label="在地图上查看 UCL East"><span class="num">1</span><span><span class="place">UCL East</span><span class="area">Queen Elizabeth Olympic Park</span></span><span class="stop-chevron" aria-hidden="true">›</span></button></li><li><button type="button" class="stop-button" data-stop="1" aria-label="在地图上查看 Here East"><span class="num">2</span><span><span class="place">Here East</span><span class="area">Hackney Wick · Innovation Campus</span></span><span class="stop-chevron" aria-hidden="true">›</span></button></li><li><button type="button" class="stop-button" data-stop="2" aria-label="在地图上查看 UCL Main Campus"><span class="num">3</span><span><span class="place">UCL Main Campus</span><span class="area">Bloomsbury</span></span><span class="stop-chevron" aria-hidden="true">›</span></button></li><li><button type="button" class="stop-button" data-stop="3" aria-label="在地图上查看 King's Cross"><span class="num">4</span><span><span class="place">King's Cross</span><span class="area">Central / King's Cross Regeneration</span></span><span class="stop-chevron" aria-hidden="true">›</span></button></li></ol><p class="note"><span class="note-label">行程建议</span>从奥林匹克公园的 UCL East、Here East 向西，连接 Bloomsbury 与 King’s Cross 的高教和城市更新节点。</p></section>
-      <section class="route" id="route-3" aria-label="10 月 6 日行程"><p class="route-kicker">DAY 03 / THE ITINERARY</p><div class="route-heading"><h2>中心区：交通、居住与办公</h2><span>3 个地点</span></div><ol class="stops"><li><button type="button" class="stop-button" data-stop="0" aria-label="在地图上查看 Waterloo Station"><span class="num">1</span><span><span class="place">Waterloo Station</span><span class="area">South Bank · Railway Hub</span></span><span class="stop-chevron" aria-hidden="true">›</span></button></li><li><button type="button" class="stop-button" data-stop="1" aria-label="在地图上查看 Barbican Estate"><span class="num">2</span><span><span class="place">Barbican Estate</span><span class="area">City of London · Housing</span></span><span class="stop-chevron" aria-hidden="true">›</span></button></li><li><button type="button" class="stop-button" data-stop="2" aria-label="在地图上查看 Bloomberg European HQ"><span class="num">3</span><span><span class="place">Bloomberg European HQ</span><span class="area">Walbrook · City of London</span></span><span class="stop-chevron" aria-hidden="true">›</span></button></li></ol><p class="note"><span class="note-label">行程建议</span>覆盖中心区的交通枢纽、粗野主义居住区与高密度办公建筑，可沿南岸—金融城方向串联考察。</p></section>
-      </div>
-      <footer class="sidebar-footer"><span>LONDON, UK</span><span>51.5072° N · 0.1276° W</span></footer>
-    </aside>
-    <section class="map-wrap" aria-label="伦敦行程地图">
-      <div class="map-label"><strong id="map-title">水岸与历史</strong><span id="map-label">10.04 · SOUTHEAST LONDON</span></div>
-      <div id="map" class="map" aria-label="可缩放的伦敦考察地图"></div>
-      <p class="map-hint" id="map-hint" role="status" hidden>地图暂时无法加载，请检查网络后刷新。你仍可切换日期查看完整行程。</p>
-      <button class="map-reset" id="map-reset" type="button" aria-label="显示完整当日路线" title="显示完整当日路线"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M8 8h8v8H8z"/></svg></button>
-      <div class="legend"><div><i style="background:#182d48"></i>住宿</div><div><i id="legend-dot" style="background:#356da7"></i><span id="legend-text">10.04 考察路线</span></div></div>
-    </section>
-  </main>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <script>
-    const hotel={name:'Leman Locke',area:'E1 8EN · Aldgate East',lat:51.51468,lng:-0.06842};
-    const days={
-      1:{label:'10.04 · SOUTHEAST LONDON',color:'#356da7',points:[['Canada Water','Rotherhithe · Docklands',51.49825,-0.04967],['Greenwich','Greenwich Town Centre',51.48258,-0.00766]]},
-      2:{label:'10.05 · INNOVATION CORRIDOR',color:'#b96c51',points:[['UCL East','Queen Elizabeth Olympic Park',51.53892,-0.00970],['Here East','Hackney Wick · Innovation Campus',51.54631,-0.02140],['UCL Main Campus','Bloomsbury',51.52461,-0.13400],["King's Cross",'King’s Cross Regeneration',51.53069,-0.12343]]},
-      3:{label:'10.06 · CENTRAL LONDON',color:'#8170a6',points:[['Waterloo Station','South Bank · Railway Hub',51.50328,-0.11317],['Barbican Estate','City of London · Housing',51.52034,-0.09663],['Bloomberg European HQ','Walbrook · City of London',51.51246,-0.08865]]}
-    };
-    const homeIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-7h6v7"/></svg>';
-    const mapHint=document.getElementById('map-hint');
-    const resetButton=document.getElementById('map-reset');
-    let map=null,activeLayer=null,routeBounds=null,markers=[];
-    if(window.L){
-      map=L.map('map',{zoomControl:false,attributionControl:true,scrollWheelZoom:false}).setView([51.512,-0.08],12);
-      L.control.zoom({position:'bottomright',zoomInTitle:'放大地图',zoomOutTitle:'缩小地图'}).addTo(map);
-      // Keep the existing OpenStreetMap provider and its attribution.
-      const tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
-      tiles.on('tileerror',()=>{mapHint.textContent='部分地图未能加载，请检查网络后刷新。考察地点与路线仍可查看。';mapHint.hidden=false;});
-      tiles.on('tileload',()=>{mapHint.hidden=true;});
-      const hotelIcon=L.divIcon({className:'',html:`<div class="marker hotel-marker">${homeIcon}</div>`,iconSize:[34,34],iconAnchor:[17,17],popupAnchor:[0,-17]});
-      L.marker([hotel.lat,hotel.lng],{icon:hotelIcon,title:hotel.name,alt:hotel.name}).addTo(map).bindPopup(`<div class="popup-title">${hotel.name}</div><div class="popup-text">${hotel.area}</div>`);
-      map.on('resize',()=>fitRoute(false));
-    }else{mapHint.hidden=false;resetButton.disabled=true;}
-    function fitRoute(animate=false){
-      if(!map||!routeBounds)return;
-      map.fitBounds(routeBounds,{paddingTopLeft:[40,95],paddingBottomRight:[65,65],maxZoom:13,animate});
-    }
-    function renderDay(value){
-      const num=Number(value),d=days[num];
-      document.documentElement.style.setProperty('--accent',d.color);
-      document.querySelectorAll('.day-tabs button').forEach(button=>{
-        const selected=Number(button.dataset.day)===num;
-        button.classList.toggle('active',selected);button.setAttribute('aria-pressed',String(selected));
-      });
-      document.querySelectorAll('.route').forEach(route=>route.classList.toggle('active',route.id===`route-${num}`));
-      document.getElementById('map-title').textContent=['水岸与历史','教育与城市再生','交通、居住与办公'][num-1];
-      document.getElementById('map-label').textContent=d.label;
-      document.getElementById('legend-dot').style.background=d.color;
-      document.getElementById('legend-text').textContent=`10.0${3+num} 考察路线`;
-      if(!map)return;
-      map.closePopup();if(activeLayer)map.removeLayer(activeLayer);
-      activeLayer=L.layerGroup().addTo(map);markers=[];
-      const route=[[hotel.lat,hotel.lng]];
-      d.points.forEach((point,index)=>{
-        const latLng=[point[2],point[3]];route.push(latLng);
-        const icon=L.divIcon({className:'',html:`<div class="marker day-${num}">${index+1}</div>`,iconSize:[34,34],iconAnchor:[17,17],popupAnchor:[0,-17]});
-        const marker=L.marker(latLng,{icon,title:point[0],alt:point[0]}).addTo(activeLayer).bindPopup(`<div class="popup-title">${index+1}. ${point[0]}</div><div class="popup-text">${point[1]}</div>`);
-        markers.push(marker);
-      });
-      L.polyline(route,{color:d.color,weight:3,opacity:.85,dashArray:'5 9',lineCap:'round'}).addTo(activeLayer);
-      routeBounds=L.latLngBounds(route);fitRoute();
-    }
-    document.querySelectorAll('.day-tabs button').forEach(button=>button.addEventListener('click',()=>renderDay(button.dataset.day)));
-    document.querySelectorAll('.stop-button').forEach(button=>button.addEventListener('click',()=>{
-      if(!map)return;
-      const marker=markers[Number(button.dataset.stop)];
-      document.querySelector('.map-wrap').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'nearest'});
-      map.setView(marker.getLatLng(),14,{animate:false});marker.openPopup();
-    }));
-    resetButton.addEventListener('click',()=>{if(map)map.closePopup();fitRoute();});
-    renderDay(1);
-  </script>
+<main class="shell">
+  <aside class="sidebar">
+    <div class="eyebrow">LONDON · STUDY TRIP · 2026</div>
+    <h1 class="title">伦敦考察<br>行程地图</h1>
+    <p class="subtitle">10 月 4 日至 6 日 · 点击日期查看当日重点考察区域与建议移动顺序。</p>
+    <section class="hotel" aria-label="酒店位置"><div class="symbol">⌂</div><div><strong>Leman Locke</strong><small>E1 8EN · Aldgate East</small></div></section>
+    <nav class="day-tabs" aria-label="行程日期">
+      <button class="active" data-day="1" type="button">10.04</button><button data-day="2" type="button">10.05</button><button data-day="3" type="button">10.06</button>
+    </nav>
+    <section class="route active" id="route-1"><div class="route-heading"><h2>东南伦敦：水岸与历史</h2><span>2 STOPS</span></div><ol class="stops"><li><span class="num">1</span><div><div class="place">Canada Water</div><div class="area">Rotherhithe · Docklands</div></div></li><li><span class="num">2</span><div><div class="place">Greenwich</div><div class="area">Greenwich Peninsula / Town Centre</div></div></li></ol><p class="note">酒店位于 Aldgate East；当天线路由泰晤士河以北向东南延伸，适合以 Canada Water 为起点，再前往 Greenwich。</p></section>
+    <section class="route" id="route-2"><div class="route-heading"><h2>创新走廊：教育与再生</h2><span>4 STOPS</span></div><ol class="stops"><li><span class="num">1</span><div><div class="place">UCL East</div><div class="area">Queen Elizabeth Olympic Park</div></div></li><li><span class="num">2</span><div><div class="place">Here East</div><div class="area">Hackney Wick · Innovation Campus</div></div></li><li><span class="num">3</span><div><div class="place">UCL Main Campus</div><div class="area">Bloomsbury</div></div></li><li><span class="num">4</span><div><div class="place">King's Cross</div><div class="area">Central / King's Cross Regeneration</div></div></li></ol><p class="note">从奥林匹克公园的 UCL East、Here East 向西，连接 Bloomsbury 与 King’s Cross 的高教和城市更新节点。</p></section>
+    <section class="route" id="route-3"><div class="route-heading"><h2>中心区：交通、居住与办公</h2><span>3 STOPS</span></div><ol class="stops"><li><span class="num">1</span><div><div class="place">Waterloo Station</div><div class="area">South Bank · Railway Hub</div></div></li><li><span class="num">2</span><div><div class="place">Barbican Estate</div><div class="area">City of London · Housing</div></div></li><li><span class="num">3</span><div><div class="place">Bloomberg European HQ</div><div class="area">Walbrook · City of London</div></div></li></ol><p class="note">覆盖中心区的交通枢纽、粗野主义居住区与高密度办公建筑，可沿南岸—金融城方向串联考察。</p></section>
+  </aside>
+  <section class="map-wrap" aria-label="伦敦行程地图"><div class="map-label" id="map-label">10.04 · SOUTHEAST LONDON</div><div id="map" class="map"></div><div class="legend"><div><i style="background:#172321"></i>酒店</div><div><i id="legend-dot" style="background:#367cf2"></i><span id="legend-text">10.04 当日地点</span></div></div></section>
+</main>
+<script src="https://unpkg.com/maplibre-gl@5.12.0/dist/maplibre-gl.js"></script>
+<script>
+  const hotel={name:'Leman Locke',area:'E1 8EN · Aldgate East',lat:51.51468,lng:-0.06842};
+  const days={
+    1:{label:'10.04 · SOUTHEAST LONDON',color:'#367cf2',points:[['Canada Water','Rotherhithe · Docklands',51.49825,-0.04967],['Greenwich','Greenwich Town Centre',51.48258,-0.00766]]},
+    2:{label:'10.05 · INNOVATION CORRIDOR',color:'#ff7461',points:[['UCL East','Queen Elizabeth Olympic Park',51.53892,-0.00970],['Here East','Hackney Wick · Innovation Campus',51.54631,-0.02140],['UCL Main Campus','Bloomsbury',51.52461,-0.13400],["King's Cross",'King’s Cross Regeneration',51.53069,-0.12343]]},
+    3:{label:'10.06 · CENTRAL LONDON',color:'#a955c8',points:[['Waterloo Station','South Bank · Railway Hub',51.50328,-0.11317],['Barbican Estate','City of London · Housing',51.52034,-0.09663],['Bloomberg European HQ','Walbrook · City of London',51.51246,-0.08865]]}
+  };
+  const map=new maplibregl.Map({container:'map',style:'https://tiles.openfreemap.org/styles/positron',center:[-0.09,51.51],zoom:11.3,attributionControl:true,antialias:true});
+  map.addControl(new maplibregl.NavigationControl(),'bottom-right');
+  const width=(a,b,c,d)=>['interpolate',['linear'],['zoom'],8,a,11,b,14,c,17,d];
+  function tuneBasemap(){map.getStyle().layers.forEach(layer=>{const key=`${layer.id} ${layer['source-layer']||''}`.toLowerCase();if(layer.type==='symbol')map.setLayoutProperty(layer.id,'visibility','none');if(layer.type==='background')map.setPaintProperty(layer.id,'background-color','#ffffff');if(layer.type==='fill'&&/building/.test(key)){map.setPaintProperty(layer.id,'fill-color','#f1f0ee');map.setPaintProperty(layer.id,'fill-opacity',.82)}if(layer.type==='fill'&&/water/.test(key)){map.setPaintProperty(layer.id,'fill-color','#d3d3d3');map.setPaintProperty(layer.id,'fill-opacity',.82)}if(layer.type==='line'&&/(road|transportation|street)/.test(key)){const major=/(motorway|trunk|primary)/.test(key),secondary=/(secondary|tertiary)/.test(key);map.setPaintProperty(layer.id,'line-color',major?'#aeb0af':secondary?'#c5c6c5':'#dddddc');map.setPaintProperty(layer.id,'line-width',major?width(.75,.86,.98,1.10):secondary?width(.50,.61,.72,.82):width(.30,.40,.50,.60))}})}
+  function marker(text,cls,lng,lat,title,detail){const el=document.createElement('div');el.className=`marker ${cls}`;el.textContent=text;return new maplibregl.Marker({element:el,anchor:'center'}).setLngLat([lng,lat]).setPopup(new maplibregl.Popup({offset:18}).setHTML(`<div class="popup-title">${title}</div><div class="popup-text">${detail}</div>`))}
+  let activeMarkers=[],activeRoute=false;
+  function renderDay(num){
+    const d=days[num];activeMarkers.forEach(m=>m.remove());activeMarkers=[];if(activeRoute){map.removeLayer('trip-route');map.removeSource('trip-route')}
+    const route=[[hotel.lng,hotel.lat]];d.points.forEach((p,i)=>{route.push([p[3],p[2]]);activeMarkers.push(marker(i+1,`day-${num}`,p[3],p[2],`${i+1}. ${p[0]}`,p[1]).addTo(map))});
+    map.addSource('trip-route',{type:'geojson',data:{type:'Feature',properties:{},geometry:{type:'LineString',coordinates:route}}});map.addLayer({id:'trip-route',type:'line',source:'trip-route',paint:{'line-color':d.color,'line-width':4,'line-opacity':.75,'line-dasharray':[2,2]}});activeRoute=true;
+    const bounds=route.reduce((b,c)=>b.extend(c),new maplibregl.LngLatBounds(route[0],route[0]));map.fitBounds(bounds,{padding:55,maxZoom:13});
+    document.getElementById('map-label').textContent=d.label;document.getElementById('legend-dot').style.background=d.color;document.getElementById('legend-text').textContent=`10.0${3+num} 当日地点`;
+  }
+  document.querySelectorAll('.day-tabs button').forEach(button=>button.addEventListener('click',()=>{const n=button.dataset.day;document.querySelectorAll('.day-tabs button').forEach(b=>b.classList.toggle('active',b===button));document.querySelectorAll('.route').forEach(r=>r.classList.toggle('active',r.id===`route-${n}`));renderDay(n)}));
+  map.on('load',()=>{tuneBasemap();marker('⌂','hotel-marker',hotel.lng,hotel.lat,hotel.name,hotel.area).addTo(map);renderDay(1)});
+</script>
 </body>
 </html>
